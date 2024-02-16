@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>条件渲染</title>
+    <link type="text/css" rel="stylesheet" href="../static/bootstrap4/bootstrap.min.css"/>
+    <script type="text/javascript" src="../static/vue.js"></script>
+    <script type="text/javascript" src="../static/jquery-slim.min.js"></script>
+    <script type="text/javascript" src="../static/popper.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap4/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="app1">
+    <h1 class="bg-success text-white">#v-if</h1>
+    <h1 v-if="awesome">Vue is awesome!<p>v-if指令</p></h1>
+    <h1 v-else>Oh no 😢</h1>
+    <!-- template 切换多个元素-->
+    <template v-if="ok">
+        <h1>Title</h1>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </template>
+    <h1 class="bg-success text-white">#v-else</h1>
+    <div v-if="Math.random()>0.5">
+        Now you see me
+    </div>
+    <div v-else>
+        Now you don't
+    </div>
+    <h1 class="bg-success text-white">#v-else-if</h1>
+    <div v-if="type==='A'">
+        A
+    </div>
+    <div v-else-if="type==='B'">
+        B
+    </div>
+    <div v-else-if="type==='C'">
+        C
+    </div>
+    <div v-else>
+        Not A/B/C
+    </div>
+    <h1 class="bg-success text-white">#用key管理可复用的元素</h1>
+    <template v-if="loginType==='username'">
+        <label>Username</label>
+        <input placeholder="Enter your username" key="username-input">
+    </template>
+    <template v-else>
+        <label>Email</label>
+        <input placeholder="Enter your email address" key="email-input">
+    </template>
+    <button class="btn btn-primary" @click="toggleLoginType">toggleLoginType</button>
+    <h1 class="bg-success text-white">#v-show</h1>
+    <h1 v-show="show">Hello!</h1>
+</div>
+<script type="text/javascript">
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            awesome:true,
+            ok:true,
+            type:'D',
+            loginType:'username',
+            show:true
+        },
+        methods:{
+            toggleLoginType:function(){
+                if(this.loginType==='username'){
+                    this.loginType='email'
+                }else{
+                    this.loginType='username'
+                }
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

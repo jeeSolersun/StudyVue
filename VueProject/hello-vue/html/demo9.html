@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单输入绑定</title>
+    <link type="text/css" rel="stylesheet" href="../static/bootstrap4/bootstrap.min.css"/>
+    <script type="text/javascript" src="../static/vue.js"></script>
+    <script type="text/javascript" src="../static/jquery-slim.min.js"></script>
+    <script type="text/javascript" src="../static/popper.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap4/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="app1">
+        <h1 class="bg-warning text-white">基础用法</h1>
+        <h1 class="bg-success text-white">文本</h1>
+        <input v-model="message" placeholder="edit me">
+        <p>Message is : {{message}}</p>
+        <h1 class="bg-success text-white">多行文本</h1>
+        <span>Multiline message is:</span>
+        <p style="white-space:pre-line;">{{message}}</p><br/>
+        <textarea v-model="message" placeholer="add multiple lines"></textarea>
+        <h1 class="bg-success text-white">复选框</h1>
+        <p>#1</p>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+        <p>#2</p>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br/>
+        <span>Checked names:{{checkedNames}}</span>
+        <h1 class="bg-success text-white">单选框</h1>
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br/>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br/>
+        <span>picked:{{picked}}</span>
+        <h1 class="bg-success text-white">选择框</h1>
+        <select v-model="selected">
+            <option disabled value="">请选择</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br/>
+        <span>selected:{{selected}}</span>
+        <h1 class="bg-success text-white">绑定到一个数组</h1>
+        <select v-model="selected2" multiple style="width:50px;">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>selected2:{{selected2}}</span>
+        <h1 class="bg-success text-white">用v-for渲染的动态选项</h1>
+        <select v-model="selected3">
+            <option v-for="v in options" :value="v.value">{{v.text}}</option>
+        </select>
+        <span>selected3:{{selected3}}</span>
+    </div>
+    <h1 class="border-top border-danger bg-warning text-white">#值绑定</h1>
+    <div id="app2">
+
+    </div>
+<script type="text/javascript">
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            message:'Hello Vue!',
+            checked:false,
+            checkedNames:[],
+            picked:'',
+            selected:'',
+            selected2:[],
+            selected3:'A',
+            options:[
+                {text:'One',value:'A'},
+                {text:'Two',value:'B'},
+                {text:'Three',value:'C'}
+            ]
+        }
+    });
+    var app2=new Vue({
+        el:'#app2',
+        data:{
+
+        }
+    });
+</script>
+</body>
+</html>

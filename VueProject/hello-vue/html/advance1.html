@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>深入了解组件之组件注册</title>
+    <link type="text/css" rel="stylesheet" href="../static/bootstrap4/bootstrap.min.css"/>
+    <script type="text/javascript" src="../static/vue.js"></script>
+    <script type="text/javascript" src="../static/jquery-slim.min.js"></script>
+    <script type="text/javascript" src="../static/popper.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap4/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="app1">
+    <pascal-component v-model="inputValue"></pascal-component><span>inputValue: {{inputValue}}</span>
+</div>
+<script type="text/javascript">
+    Vue.component('PascalComponent',{
+        props:['value'],
+        template:'<input v-bind:value="value" v-on:input="$emit(\'input\',$event.target.value)">'
+    });
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            inputValue:''
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>reactive</title>
+    <script type="text/javascript" src="../static/vue.js"></script>
+</head>
+<body>
+<div id="example">{{message}}</div>
+<example></example>
+
+<script type="text/javascript">
+    var vm=new Vue({
+        el:'#example',
+        data:{
+            message:'123'
+        }
+    });
+    vm.message='new message';
+    console.log(vm.$el.textContent==='new message');
+    Vue.nextTick(function(){
+        console.log(vm.$el.textContent === 'new message');
+    });
+    Vue.component('example', {
+        template: '<span>{{ message }}</span>',
+        data: function () {
+            return {
+                message: '未更新'
+            }
+        },
+        methods: {
+            updateMessage: function () {
+                this.message = '已更新'
+                console.log(this.$el.textContent) // => '未更新'
+                this.$nextTick(function () {
+                    console.log(this.$el.textContent) // => '已更新'
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

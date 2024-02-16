@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性和侦听器</title>
+    <script type="text/javascript" src="../static/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+</head>
+<body>
+<div id="app1">
+    <p>{{message.split('').reverse().join('')}}</p>
+    <p>Original message:"{{message}}"</p>
+    <p>Computed reversed message:"{{reversedMessage}}"</p>
+</div>
+<div id="app2">
+    <p>{{reversedMessage()}}</p>
+    <p>{{now}}</p>
+</div>
+<div id="app3">
+    <p>{{fullName}}</p>
+</div>
+<div id="app4">
+    <p>{{fullName}}</p>
+    <p>{{firstName}}</p>
+    <p>{{lastName}}</p>
+</div>
+<div id="watch-example">
+    <p>
+        Ask a yes/no question:
+        <input v-model="question">
+    </p>
+    <p>{{answer}}</p>
+</div>
+<script type="text/javascript">
+    //计算属性 基础例子computed属性
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            message:'我用自己的方式爱你'
+        },
+        computed:{
+            reversedMessage:function(){
+                return this.message.split('').reverse().join('');
+            }
+        }
+    });
+    //计算属性vs方法
+    var app2=new Vue({
+        el:'#app2',
+        data:{
+          message:'你好'
+        },
+        computed:{
+          now:function(){
+              return Date.now().toLocaleString();
+          }
+        },
+        methods:{
+            reversedMessage:function(){
+                return this.message.split('').reverse().join('');
+            }
+        }
+    });
+    //侦听属性
+    var app3=new Vue({
+        el:'#app3',
+        data:{
+            firstName:'Hanbing',
+            lastName:'Sun',
+            fullName:'Hanbing Sun'
+        },
+        watch:{
+            firstName:function(val){
+                this.fullName = val+' '+this.lastName;
+            },
+            lastName:function(val){
+                this.fullName = this.firstName()+' '+val;
+            }
+        }
+    });
+    //计算属性的setter
+    var app4=new Vue({
+        el:'#app4',
+        data:{
+            firstName:'Hanbing',
+            lastName:'Sun'
+        },
+        computed:{
+            fullName:{
+                get:function(){
+                    return this.firstName+' '+this.lastName
+                },
+                set:function(newVal){
+                    var names=newVal.split(' ')
+                    this.firstName=names[0]
+                    this.lastName=names[names.length-1]
+                }
+            }
+        }
+
+    });
+    //侦听器
+    var watchExampleVM = new Vue({
+        el: '#watch-example',
+        data: {
+            question: '',
+            answer: 'I cannot give you an answer until you ask a question!'
+        },
+        watch: {
+            // 如果 `question` 发生改变，这个函数就会运行
+            question: function (newQuestion, oldQuestion) {
+                this.answer = 'Waiting for you to stop typing...'
+                this.debouncedGetAnswer()
+            }
+        },
+        created: function () {
+            // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+            // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+            // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+            // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+            // 请参考：https://lodash.com/docs#debounce
+            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+        },
+        methods: {
+            getAnswer: function () {
+                if (this.question.indexOf('?') === -1) {
+                    this.answer = 'Questions usually contain a question mark. ;-)'
+                    return
+                }
+                this.answer = 'Thinking...'
+                var vm = this
+                axios.get('https://yesno.wtf/api')
+                    .then(function (response) {
+                        vm.answer = _.capitalize(response.data.answer)
+                    })
+                    .catch(function (error) {
+                        console.log(this===window);
+                        vm.answer = 'Error! Could not reach the API. ' + error
+                    })
+            }
+        }
+    });
+</script>
+</body>
+</html>

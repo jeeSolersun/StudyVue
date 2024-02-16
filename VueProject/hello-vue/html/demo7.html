@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染</title>
+    <link type="text/css" rel="stylesheet" href="../static/bootstrap4/bootstrap.min.css"/>
+    <script type="text/javascript" src="../static/vue.js"></script>
+    <script type="text/javascript" src="../static/jquery-slim.min.js"></script>
+    <script type="text/javascript" src="../static/popper.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap4/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="example1">
+    <h1 class="bg-success text-white">v-for</h1>
+    <ul>
+        <li v-for="item in items">
+            {{item.message}}
+        </li>
+    </ul>
+    <h1 class="bg-success text-white">v-for带索引</h1>
+    <ul>
+        <li v-for="(item,index) in items">
+            {{parentMessage}}-{{index}}-{{item.message}}
+        </li>
+    </ul>
+    <h1 class="bg-success text-white">of替换in</h1>
+    <ul>
+        <li v-for="(item,index) of items">
+            {{parentMessage}}-{{index}}-{{item.message}}
+        </li>
+    </ul>
+</div>
+<h1 class="bg-success text-white">一个对象的v-for</h1>
+<div id="v-for-object">
+    <div v-for="(value,name,index) in object">
+        {{index}}.{{name}}:{{value}}
+    </div>
+</div>
+<div id="arry_attention">
+    <div v-for="(item,index) in items">
+        {{item}}
+    </div>
+</div>
+<!--对象更改检测注意事项-->
+<div id="object_attention">
+    <h1 class="bg-success text-white">对象更改检测注意事项</h1>
+    <div v-for="(p,name,index) in userProfile">
+        {{index}}.{{name}}:{{p}}
+    </div>
+</div>
+<div id="app1">
+    <h1 class="bg-success text-white">在v-for使用computed(计算属性)或者methods(方法属性)</h1>
+    <p>在v-for中使用computed计算属性返回对象</p>
+    <ul>
+        <li v-for="n in evenNumbers">{{n}}</li>
+    </ul>
+    <p>在v-for中使用methods方法属性返回对象</p>
+    <ul>
+        <li v-for="n in evenNumbers2()"></li>
+    </ul>
+</div>
+
+<div id="app2">
+    <h1 class="bg-success text-white">一段取值范围的v-for</h1>
+    <span v-for="i in 10">{{i}}</span>
+</div>
+
+<div id="app3">
+    <h1 class="bg-success text-white">v-for on a &lt;template&gt;</h1>
+    <ul>
+        <template v-for="item of items">
+            <li>{{item.msg}}</li>
+            <li class="bg-primary" role="presentation">template</li>
+        </template>
+    </ul>
+</div>
+
+<div id="app4">
+    <h1 class="bg-success text-white">v-for with v-if</h1>
+    <ul>
+        <li v-for="todo in todos" v-if="!todo.isComplete">{{todo.name}}</li>
+    </ul>
+    <ul v-if="todos.length">
+        <li v-for="todo of todos">{{todo}}</li>
+    </ul>
+    <p v-else>No todos left!</p>
+</div>
+
+<div id="todo-list-example">
+    <h1 class="bg-warning text-white">一个组件的v-for</h1>
+    <form v-on:submit.prevent="addNewTodo">
+        <label for="new-todo">Add a todo</label>
+        <input id="new-todo" v-model="newTodoText" placeholder="E.g. Feed the cat">
+        <button>Add</button>
+    </form>
+    <ul>
+        <li is="todo-item" v-for="(todo,index) in todos" v-bind:title="todo.title" v-bind:key="todo.id" v-on:remove="todos.splice(index,1)"></li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    var example1=new Vue({
+        el:'#example1',
+        data:{
+            parentMessage:'Parent',
+            items:[
+                {message:'Foo'},
+                {message:'Bar'}
+            ]
+        }
+    });
+    var vObject=new Vue({
+        el:'#v-for-object',
+        data:{
+            object:{
+                title:'How to do lists in Vue',
+                author:'Jane Doe',
+                publishedAt:'2016-04-10'
+            }
+        }
+
+    });
+   /* example1.items=example1.items.filter(function(item){
+        return item.message.match(/Foo/g);
+    });*/
+   //1.数组更新注意事项
+    var arry_attention=new Vue({
+        el:'#arry_attention',
+        data:{
+            items:['a','b','c']
+        }
+    });
+    arry_attention.items[1]='x';
+    arry_attention.items.lenght=2;
+    //Vue.set(arry_attention.items,1,'x');//全局方法
+    //arry_attention.$set(arry_attention.items,1,'y');//实例方法
+    //arry_attention.items.splice(1,1,'z');//Array.prototype.splice
+    arry_attention.items.splice(2);
+
+    //2.对象更改检测注意事项
+    var object_attention=new Vue({
+        el:'#object_attention',
+        data:{
+            userProfile:{
+                name:'Anika'
+            }
+        }
+    });
+    /**/
+    //Vue全局方法添加新属性
+    Vue.set(object_attention.userProfile,'age',27);
+    //vue实例方法添加新属性
+    object_attention.$set(object_attention.userProfile,'address','wuhan');
+
+    //不要使用(对象的属性虽然会响应式更新，但是对象属性的值不会响应式的更新)
+    /*Object.assign(object_attention.userProfile,{
+        phone:'123',
+        email:'123@163.com'
+    });*/
+    //推荐//通过创建新对象添加多个属性
+    object_attention.userProfile=Object.assign({},object_attention.userProfile,{
+        phone:'110',
+        email:'123@163.com'
+    });
+
+    //3.显示过滤/排序结果
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            numbers:[1,2,3,4,5]
+        },
+        computed:{
+            evenNumbers:function(){
+                return this.numbers.filter(function(number){
+                    return number%2===0;
+                });
+            }
+        },
+        methods:{
+            evenNumbers2:function(){
+                return this.numbers.filter(function(n){
+                    return n%2===0;
+                });
+            }
+        }
+    });
+    //4.一段取值范围的v-for
+    var app2=new Vue({
+        el:'#app2'
+    });
+    //5.v-for on a <template>
+    var app3=new Vue({
+        el:'#app3',
+        data:{
+            items:[
+                {msg:'那一天'},
+                {msg:'我爱上你'}
+            ]
+        }
+    });
+    //6.v-for with v-if
+    var app4=new Vue({
+        el:'#app4',
+        data:{
+            todos:[
+                {name:'java',isComplete:true},
+                {name:'vue',isComplete:false}
+            ]
+        }
+    });
+    //7.一个组件的v-for
+    Vue.component('todo-item',{
+        template:'<li>{{title}}<button v-on:click="$emit(\'remove\')">Remove</button></li>',
+        props:['title']
+    });
+    var todo_list_example=new Vue({
+        el:'#todo-list-example',
+        data:{
+            todos:[
+                {id:1,title:'Do the dishes'},
+                {id:2,title:'Take out the trash'},
+                {id:3,title:'Mow the lawn'}
+            ],
+            newTodoText:'',
+            nextTodoId:4
+        },
+        methods:{
+            addNewTodo:function(){
+                this.todos.push({
+                    id:this.nextTodoId++,
+                    title:this.newTodoText
+                });
+                //由于双向绑定，将input的值清空
+                this.newTodoText=''
+            }
+        }
+    });
+</script>
+</body>
+</html>

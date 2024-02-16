@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue实例</title>
+    <script type="text/javascript" src="../static/vue.js"></script>
+</head>
+<body>
+<!--<div id="app1">
+    <p>{{a}}</p>
+</div>
+<div id="app2">
+    <p>{{foo}}</p>
+    <button v-on:click="foo = 'baz'">Change it</button>
+</div>
+<div id="app3">
+    <p>{{a}}</p>
+    <button v-on:click="a='hanson'">改变a的值</button>
+</div>-->
+<div id="app4">
+    <p>{{a}}</p>
+</div>
+<script type="text/javascript">
+    /*var app1=new Vue({
+        el:'#app1',
+        data:{
+            a:'aaa'
+        }
+    });
+    var obj={foo:'bar'};
+    Object.freeze(obj);
+    var app2=new Vue({
+        el:'#app2',
+        data:obj
+    });
+    //vue实例属性和方法
+    var data={a:1};
+    var app3=new Vue({
+        el:'#app3',
+        data:data
+    });
+
+    app3.$watch('a',function(newValue,oldValue){
+        console.log(newValue+","+oldValue);
+        console.log(app3.$data===data);
+        console.log(app3.$el===document.getElementById('app3'));
+    });*/
+    //vue实例生命周期钩子
+    var app4 = new Vue({
+        el:'#app4',
+        data:{
+            a:1
+        },
+        created:function(){
+            //this指向app4实例
+            console.log('a is:'+this.a);
+        }
+    });
+</script>
+</body>
+</html>

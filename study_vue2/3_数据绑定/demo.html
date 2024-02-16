@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- 引入vue js -->
+  <script type="text/javascript" src="../js/vue.js"></script> 
+</head>
+<body>
+  <!-- vue容器，容器与vue实例是一对一的关系 -->
+  <div id="root">
+    <!-- 完整写法 -->
+    <!-- <input type="text" v-bind:value="msg"><br/>
+    <input type="text" v-model:value="msg"> -->
+    <!-- 简写形式 -->
+    <input type="text" :value="msg"><br/>
+    <input type="text" v-model="msg">
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  // 创建vue实例
+  new Vue({
+    el: '#root',
+    data: {
+      msg: 'vue2'
+    }
+  })
+</script>
+</html>

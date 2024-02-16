@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <li v-for="(item, index) in jobs">{{item}}-{{index}}</li> 
+    </ul>
+  </div>
+  <div id="app2">
+    <ul>
+      <li v-for="(value, key, index) in person">{{value}}-{{key}}-{{index}}</li>
+    </ul>
+  </div>
+  <div id="app3">
+    
+  </div>
+  <script type="text/javascript" src="../static/vue.js"></script>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        jobs :["java", 'go', 'js']
+      }
+    });
+    new Vue({
+      el: '#app2',
+      data: {
+        person: {
+          name: 'codeify',
+          age: 22,
+          gender: 'man'
+        }
+      }
+    });
+  </script>
+  
+  
+</body>
+</html>

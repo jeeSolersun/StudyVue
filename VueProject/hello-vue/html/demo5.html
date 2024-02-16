@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class与Style绑定</title>
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap4/bootstrap.min.css"/>
+    <script type="text/javascript" src="../static/vue.js"></script>
+    <script type="text/javascript" src="../static/jquery-slim.min.js"></script>
+    <script type="text/javascript" src="../static/popper.min.js"></script>
+    <script type="text/javascript" src="../static/bootstrap4/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="app1" class="static" v-bind:class="{active:isActive,'text-danger':hasError}">
+    <p>对象语法1</p>
+</div>
+<div id="app2">
+    <p v-bind:class="classObject">数据对象定义在vue实例中</p>
+    <p v-bind:class="classObject2">数据对象的值通过computed属性计算</p>
+</div>
+<div id="app3">
+
+</div>
+<div id="app4" v-bind:class="[activeClass,errorClass,{'text-center':msg},bgClass,marginClass]">数组语法</div>
+
+<div id="app5" >
+    <p v-bind:style="{color:colorValue,'font-size':fontSize+'px'}">使用对象绑定内联样式</p>
+    <p :style="styleObject">对象定义在实例数据属性中</p>
+    <p :style="styleObject2">对象定义在实例计算属性中并返回</p>
+    <p :style="[styleObject,styleObject2]">数组语法，可以应用对象</p>
+</div>
+<div id="app6" :style="styleObject">
+    <div v-bind:class="classObject" :style="styleObject2"></div>
+    <div v-bind:style="{display:['flex','-webkit-flex'],'background-color':'red'}" :class="classObject"><p>多重值，style对象中可以使用数组</p></div>
+    <div style="background-color:red!important"  class="h-25 bg-warning"></div>
+    <div :class="{'text-warning':'true'}" :style="{'text-align':'center'}">直接在对象中赋值</div>
+</div>
+<script type="text/javascript">
+//绑定HTML Class
+//对象语法
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            isActive:true,
+            hasError:false
+        }
+    });
+    var app2=new Vue({
+        el:'#app2',
+        data:{
+            active:true,
+            danger:null,
+            classObject:{
+                active:true,
+                'text-danger':false
+            }
+        },
+        computed:{
+            classObject2:function(){
+                return {
+                    active:this.active && !this.danger,
+                    'text-danger':this.danger&&this.danger.type==='fatal'
+                }
+            }
+        }
+    });
+    var app3=new Vue({
+        el:'#app3',
+        data:{
+            message:'hanson'
+        },
+        template:'<div>{{message}}</div>'
+    });
+    //数组语法
+    var app4=new Vue({
+        el:'#app4',
+        data:{
+            msg:'nihao',
+            activeClass:'active',
+            errorClass:'text-danger',
+            bgClass:{
+                'bg-success':true
+            }
+        },
+        computed:{
+            marginClass:function(){
+                return {'m-3':this.msg&&this.activeClass}
+            }
+        }
+    });
+    //用在组件上
+
+    //绑定内联样式
+    //对象语法
+    var app5=new Vue({
+        el:'#app5',
+        data:{
+            colorValue:'red',
+            fontSize:'32',
+            styleObject:{
+                color:'green',
+                'font-size':'48px'
+            }
+        },
+        computed:{
+            styleObject2:function(){
+                return {
+                    color:'blue',
+                    fontSize:'32px'
+                }
+            }
+        }
+    });
+    //自动添加前缀
+    var app6=new Vue({
+        el:'#app6',
+        data:{
+            styleObject:{
+                height:'200px',
+                'background-color':'#ddd'
+            },
+            classObject:{
+                'h-25':true,
+                'bg-warning':true
+            },
+            styleObject2:{
+                transform:'translateY(20px)'
+            }
+        }
+    });
+    //多重值
+</script>
+</body>
+</html>

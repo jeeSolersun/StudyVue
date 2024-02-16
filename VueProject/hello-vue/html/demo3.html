@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue模板语法</title>
+<script type="text/javascript" src="../static/vue.js"></script>
+</head>
+<body>
+<div id="app1">
+    <span v-once>Message:{{msg}}</span>
+</div>
+<div id="app2">
+    <p>Using mustaches:{{rawHtml}}</p>
+    <p>Using v-html directive:<span v-html="rawHtml"></span></p>
+</div>
+<div id="app3">
+    <div v-bind:id="dynamicId"></div>
+    <button v-bind:disabled="isButtonDisabled">Button</button>
+</div>
+<div id="app4">
+    <div>{{number+1}}</div>
+    <div>{{ok ? 'YES':'NO'}}</div>
+    <div>{{message.split('').reverse().join('')}}</div>
+    <div v-bind:id="'list-'+id"></div>
+    <!--不会生效-->
+    <!--<div>{{var a= 1}}</div>
+    <div>{{if(ok){return message}}}</div>-->
+    <div>{{Math.random()+(new Date()).toLocaleString()}}</div>
+    <div v-if="seen">现在你看到我了</div>
+</div>
+<div id="app5">
+    <a v-bind:href="url" v-on:click="doSomething">doSomething</a>
+</div>
+<div id="app6">
+    <a v-bind:[attriBute1]="url">动态参数1</a>
+    <a v-on:[attribute2]="fn1">动态参数2</a>
+</div>
+<div id="app7">
+    <form v-on:submit.prevent="onSubmit">nihao</form>
+</div>
+<script type="text/javascript">
+    //文本
+    var app1=new Vue({
+        el:'#app1',
+        data:{
+            msg:'hello'
+        }
+    });
+    //v-html
+    var app2=new Vue({
+        el:'#app2',
+        data:{
+            rawHtml:'<span style="color:red;">This should be red.</span>'
+        }
+    });
+    //v-bind disabled
+    var app3=new Vue({
+        el:'#app3',
+        data:{
+            dynamicId:'22',
+            isButtonDisabled:null
+        }
+    });
+    //javascript表达式
+    var app4=new Vue({
+        el:'#app4',
+        data:{
+            number:2,
+            ok:true,
+            message:'hello vue',
+            id:'hanson',
+            seen:true
+        }
+    });
+    //参数
+    var app5=new Vue({
+        el:'#app5',
+        data:{
+            url:"#"
+        },
+        methods:{
+            doSomething:function(){
+                console.log('doSomething execute');
+            }
+        }
+    });
+    //动态参数
+    var app6=new Vue({
+        el:'#app6',
+        data:{
+            attribute1:'href',
+            attribute2:'click',
+            url:'https://www.baidu.com'
+        },
+        methods:{
+            fn1:function(){
+                console.log('fn1 execute');
+            }
+        }
+
+    });
+    //.prevent修饰符
+    var app7=new Vue({
+        el:'#app7',
+        methods:{
+            onSubmit:function(){
+                console.log('form submit');
+            }
+        }
+    });
+</script>
+</body>
+</html>
