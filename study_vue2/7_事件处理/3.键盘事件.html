@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>键盘事件：</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <!-- 
+    键盘事件：
+    1.vue中常用的按键别名：
+    回车 => enter
+    删除 => delete（捕获“删除”和“退格”键）
+    退出 => esc
+    空格 => space
+    换行 => tab（==特殊，必须配合keydown去使用==）
+    上 => up
+    下 => down
+    左 => left
+    右 => right
+    2.vue末提供別名的按健，可以使用按键原始的key值去绑定，但注意要转为kebab-case（短横线命名）
+    3.==系统修饰键（用法特殊）： ctrl、 alt、shift、meta（win键）==
+    （1）.配合==keyup==使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才被触发。
+    （2）.配合==keydown==使用：正常触发事件。
+    4.也可以使用keyCode去指定具体的按键（不推荐）
+    5.==Vue.config.keyCodes==.自定义键名 = 键码，可以去定制按键别名
+ -->
+</head>
+<body>
+  <div id="root">
+    <h1>你好，{{name}}</h1>
+    <!-- 1.vue中常用的按键别名： -->
+    <!-- <input placeholder="按下键盘触发事件" @keydown.enter="showInput($event.target.value, $event)"/><br/> -->
+    <!-- 2.vue末提供別名的按健，可以使用按键原始的key值去绑定，但注意要转为kebab-case（短横线命名）  -->
+    <!-- <input placeholder="按下键盘触发事件" @keydown.Enter="showInput($event.target.value, $event)"/><br/> -->
+    <!-- <input placeholder="按下键盘触发事件" @keydown.caps-lock="showInput($event.target.value, $event)"/><br/> -->
+    <!-- 3.==系统修饰键（用法特殊）： ctrl、 alt、shift、meta（win键）== -->
+    <!-- <input placeholder="按下键盘触发事件" @keydown.ctrl.y="showInput($event.target.value, $event)"/><br/> -->
+    <!-- 4.也可以使用keyCode去指定具体的按键（不推荐） -->
+    <!-- <input placeholder="按下键盘触发事件" @keydown.13="showInput($event.target.value, $event)"/><br/> -->
+    <!-- 5.Vue.config.keyCodes.自定义键名 = 键码，可以去定制按键别名 -->
+    <input placeholder="按下键盘触发事件" @keydown.huiche="showInput($event.target.value, $event)"/><br/>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  // 定制按键别名，具体参考api文档
+  Vue.config.keyCodes.huiche = 13;
+  new Vue({
+    el: '#root',
+    data: {
+      name: 'vue2'
+    },
+    methods: {
+      showInput(input, event) {
+        console.log(input, event.key, event.keyCode);
+      }
+    },
+  })
+</script>
+</html>
