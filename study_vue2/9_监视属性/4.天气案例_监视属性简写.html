@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.天气案例_深度监视</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="root">
+    <h1>今天的天气很{{info}}</h1><br />
+    <button @click="changeWeather">点我修改天气</button>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      isHot: true,
+    },
+    methods: {
+      changeWeather() {
+        this.isHot = !this.isHot
+      }
+    },
+    computed: {
+      info() {
+        return this.isHot ? '炎热' : '凉爽';
+      }
+    },
+    watch: {
+      // 完整写法
+      /*  isHot: {
+         immediate: true,
+         deep: true,
+         handler() {
+           console.log('isHot的值被修改了', newVal, oldVal);
+         }
+       }, */
+      isHot(newVal, oldVal) { // 简写形式，只有handler函数配置项时
+        console.log('isHot的值被修改了', newVal, oldVal);
+      }
+    }
+  })
+</script>
+
+</html>
