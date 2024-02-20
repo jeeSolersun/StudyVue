@@ -1,0 +1,105 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绑定样式</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <!-- 绑定样式：
+    1. class样式
+      写法：c1ass="xxx” xxx可以是字符串、对象、数组。
+        字符串写法适用于：类名不确定，要动态获取。
+        数组写法适用于：要绑定多个样式，个数不确定，名字也不确定。
+        对象写法适用于：要绑定多个样式，个数确定，名字也确定，但不确定用不用。
+    2. style样式
+      :style="{fontSize：xxx}"其中xxx是动态值。
+      :style="[a,b]"其中a、b是样式对象。 -->
+  <style>
+    .basic {
+      width: 300px;
+      height: 200px;
+      border: 1px solid #666;
+    }
+
+    .happy {
+      background-color: yellow;
+    }
+
+    .sad {
+      background-color: #666;
+    }
+
+    .normal {
+      background-color: skyblue;
+    }
+
+    .class1 {
+      background-color: orange;
+    }
+
+    .class2 {
+      font-size: 50px;
+      font-weight: bold;
+    }
+
+    .class3 {
+      border-radius: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <!-- 字符串写法适用于：类名不确定，要动态获取 -->
+    <div class="basic" :class="classStr" @click="changeMood">{{name}}, 点我changeMood</div><br /><br />
+    <!-- 数组写法适用于： 要绑定多个样式，个数不确定，名字也不确定，-->
+    <div class="basic" :class="classArr">{{name}}</div><br /><br />
+    <!-- 对象写法适用于： 要绑定多个样式，个数确定，名字也确定，但不确定用不用-->
+    <!-- <div class="basic" :class="{class1:true, class2:true, class3:true}">{{name}}</div><br/><br/> -->
+    <div class="basic" :class="classObj">{{name}}</div><br /><br />
+    <!-- 绑定内联样式的对象写法 -->
+    <div class="basic" :style="styleObj">测试style</div><br /><br />
+    <!-- 绑定内联样式的数组写法 -->
+    <div class="basic" :style="styleArr">测试style</div>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      name: 'vue2',
+      classStr: 'happy',
+      classArr: ['class1', 'class2', 'class3'],
+      classObj: {
+        class1: true,
+        class2: true,
+        class3: true
+      },
+      // 绑定内联样式的对象写法 
+      styleObj: {
+        fontSize: '40px',
+        backgroundColor: 'yellow'
+      },
+      // 绑定内联样式的数组写法 
+      styleArr: [
+        {
+          fontSize: '40px',
+          backgroundColor: 'yellow'
+        },
+        {
+          color: 'red'
+        }
+      ]
+    },
+    methods: {
+      changeMood() {
+        const arr = ['happy', 'sad', 'normal']
+        let index = Math.floor(Math.random(1) * 3);
+        this.classStr = arr[index]
+      }
+    },
+  })
+</script>
+
+</html>
