@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3.列表过滤</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <input type="text" placeholder="输入姓名" v-model="keyword">
+    <ul>
+      <li v-for="(per, index) in filterPersons" :key="per.id">{{per.name}}--{{per.age}}--{{per.id}}</li>
+    </ul>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  new Vue({
+    el: '#root',
+    data: {
+      name: 'vue2',
+      keyword: '',
+      persons: [
+        {id: '001', name: '马冬梅', age: 18, sex: '女'},
+        {id: '002', name: '周冬雨', age: 20, sex: '女'},
+        {id: '003', name: '周杰伦', age: 19, sex: '男'},
+        {id: '004', name: '温兆伦', age: 22, sex: '男'},
+      ],
+      filterPersons: []
+    },
+    // 通过computed计算属性实现
+    /* computed: {
+      filterPersons() {
+        // 过滤
+        return this.persons.filter(per => {
+          return per.name.indexOf(this.keyword) != -1
+        })
+      }
+    }, */
+    // 通过watch实现
+    watch: {
+      keyword: {
+        immediate: true,
+        handler(newVal) {
+          this.filterPersons = this.persons.filter((per) => {
+            return per.name.indexOf(newVal) != -1;
+          })
+        }
+      }
+    }
+  })
+
+</script>
+</html>

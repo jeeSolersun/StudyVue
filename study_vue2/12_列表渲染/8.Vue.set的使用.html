@@ -1,0 +1,42 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>8.Vue.set的使用</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="root">
+    <button @click="addSex">点我给student添加性别为女</button>
+    <button @click="delSex">点我给student删除性别</button>
+    <h1>学生信息:</h1>
+    <div>姓名：{{student.name}}</div>
+    <div>年龄：{{student.age}}</div>
+    <div v-if="student.sex">性别：{{student.sex}}</div>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      name: 'vue2',
+      student: { id: '001', name: '马冬梅', age: 18 }
+    },
+    methods: {
+      addSex() {
+        // Vue.set(this.student, 'sex', '女')
+        this.$set(this.student, 'sex', '女')
+      },
+      delSex() {
+        // Vue.delete(this.student, 'sex', '女')
+        this.$delete(this.student, 'sex', '女')
+      }
+    },
+  })
+
+</script>
+
+</html>

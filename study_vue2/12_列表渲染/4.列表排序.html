@@ -1,0 +1,80 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4.列表排序</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+  <div id="root">
+    <input type="text" placeholder="输入姓名" v-model="keyword">
+    <button @click="sortType = 2">年龄升序</button>
+    <button @click="sortType = 1">年龄降序</button>
+    <button @click="sortType = 0">原顺序</button>
+    <ul>
+      <li v-for="(per, index) in filterPersons" :key="per.id">{{per.name}}--{{per.age}}--{{per.id}}</li>
+    </ul>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  new Vue({
+    el: '#root',
+    data: {
+      name: 'vue2',
+      keyword: '',
+      sortType: 0, // 0：原顺序
+      persons: [
+        { id: '001', name: '马冬梅', age: 18, sex: '女' },
+        { id: '002', name: '周冬雨', age: 20, sex: '女' },
+        { id: '003', name: '周杰伦', age: 19, sex: '男' },
+        { id: '004', name: '温兆伦', age: 48, sex: '男' },
+      ],
+      // filterPersons: []
+    },
+    // 通过computed计算属性实现
+    computed: {
+      filterPersons() {
+        // 过滤
+        let arr = this.persons.filter(per => {
+          return per.name.indexOf(this.keyword) != -1
+        });
+        if (this.sortType != 0) {
+          arr.sort((preVal, nextVal) => {
+            return this.sortType == 2 ? preVal.age - nextVal.age : nextVal.age - preVal.age;
+          })
+        }
+        return arr;
+      }
+    },
+    // 通过watch实现 -- 比较复杂
+    /* watch: {
+      keyword: {
+        immediate: true,
+        handler(newVal) {
+          this.filterPersons = this.persons.filter((per) => {
+            return per.name.indexOf(newVal) != -1;
+          });
+        }
+      },
+      sortType: {
+        immediate: true,
+        handler(newVal) {
+          if (this.sortType != 0) {
+            this.filterPersons.sort((preVal, nextVal) => {
+              return this.sortType == 2 ? preVal.age - nextVal.age : nextVal.age - preVal.age;
+            })
+          } else {
+            this.filterPersons = this.persons.filter((per) => {
+              return per.name.indexOf(this.keyword) != -1;
+            }); 
+          }
+        }
+      }
+    } */
+  })
+</script>
+
+</html>

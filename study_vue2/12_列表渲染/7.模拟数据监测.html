@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7.模拟数据监测</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <h1>{{name}}</h1>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  new Vue({
+    el: '#root',
+    data: {
+      name: 'Vue2'
+    }
+  })
+  let person = {
+    name: 'jack',
+    age: 20,
+    // job: {
+    //   type: 'java',
+    //   time: '8'
+    // },
+    // friends: [{name: 'rose', age: 18}]
+  }
+  // 模拟Vue中的Observer函数
+  function Observer(target) {
+    const arr = Object.keys(target)
+    arr.forEach((key) => {
+      Object.defineProperty(this, key, {
+        get() {
+          return target[key]
+        },
+        set(val) {
+          target[key] = val
+        }
+      }) 
+    })
+  }
+  let observer = new Observer(person)
+</script>
+</html>

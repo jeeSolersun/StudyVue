@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9.Vue检测数据改变的原理_数组</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <!-- 
+    // 1、数组中通过索引值修改，无效，因为Vue没有对0,1,2,3。。。等这个索引值添加响应式方法
+        // this.persons[0] = { id: '001', name: '张三', age: 18, sex: '女' }
+        // 2、数组中通过push/pop/shift/unshift/splice/sort/reverse修改原数组的方法修改是响应式的，
+        // 因为Vue对这些方法进行了包装
+        // this.persons.splice(0, 1,{ id: '001', name: '张三', age: 18, sex: '女' })
+        // 3、通过Vue.set或者this.$set修改是响应式的
+        // Vue.set(this.persons, 0, { id: '001', name: '张三', age: 18, sex: '女' })
+        this.$set(this.persons, 0, { id: '001', name: '张三', age: 18, sex: '女' })
+   -->
+</head>
+<body>
+  <div id="root">
+    <h1>{{name}}</h1>
+    <button @click="updateFirst">点我修改第一个人的name为张三</button>
+    <ul>
+      <li v-for="(per, index) in persons" :key="index">{{per.name}}--{{per.age}}--{{per.id}}</li>
+    </ul>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  const vm = new Vue({
+    el: '#root',
+    data: {
+      name: 'vue2',
+      persons: [
+        { id: '001', name: '马冬梅', age: 18, sex: '女' },
+        { id: '002', name: '周冬雨', age: 20, sex: '女' },
+        { id: '003', name: '周杰伦', age: 19, sex: '男' },
+        { id: '004', name: '温兆伦', age: 48, sex: '男' },
+      ]
+    },
+    methods: {
+      updateFirst() {
+        // 1、数组中通过索引值修改，无效，因为Vue没有对0,1,2,3。。。等这个索引值添加响应式方法
+        // this.persons[0] = { id: '001', name: '张三', age: 18, sex: '女' }
+        // 2、数组中通过push/pop/shift/unshift/splice/sort/reverse修改原数组的方法修改是响应式的，
+        // 因为Vue对这些方法进行了包装
+        // this.persons.splice(0, 1,{ id: '001', name: '张三', age: 18, sex: '女' })
+        // 3、通过Vue.set或者this.$set修改是响应式的
+        // Vue.set(this.persons, 0, { id: '001', name: '张三', age: 18, sex: '女' })
+        this.$set(this.persons, 0, { id: '001', name: '张三', age: 18, sex: '女' })
+      }
+    },
+  })
+
+</script>
+</html>
