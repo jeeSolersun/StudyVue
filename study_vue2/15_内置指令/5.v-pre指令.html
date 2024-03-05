@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5.v-pre指令</title>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <!-- 
+    v-pre指令：
+      1.跳过其所在节点的编译过程。
+      2.可利用它跳过：没有使用指令语法、没有使用插值语法的节点，会加快编译。
+   -->
+</head>
+<body>
+  <div id="root">
+    <h1>你好，{{n}}</h1>
+    <h1 v-once>你好，{{n}}</h1>
+    <h1 v-pre>你好，{{n}}</h1>
+    <button v-pre @click="n++" >点我n++</button>
+    <button @click="n++">点我n++</button>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.productionTip = false; // 阻止 vue 在启动时生成生产提示
+  new Vue({
+    el: '#root',
+    data: {
+      n: 1
+    }
+  })
+</script>
+</html>

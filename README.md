@@ -1,15 +1,21 @@
-Vue监视数据的原理：
-1.vue会监视data中所有层次的数据。
-2.如何监测对象中的数据？
-  通过setter实现监视，且要在new Vue时就传入要监测的数据。
-  (1).对象中后追加的属性，vue默认不做响应式处理
-  (2).如需给后添加的属性做响应式，请使用如下API：
-    Vue.set(target, propertyName/index, value)或vm.$set(target, propertyName/index, value)
-3.如何监测数组中的数据？
-  通过包裹数组更新元素的方法实现，本质就是做了两件事：
-  (1).调用原生对应的方法对数组进行更新。
-  (2).重新解析模板，进而更新页面。
-4.在vue修改数组中的某个元素一定要用如下方法：
-  1.使用这些API:push()、pop()、shift()、 unshift()、splice()、sort()、reverse()
-  2.Vue.set() 或 vm.$set()
-特别注意：Vue.set()和 vm.$set() 不能给vm 或 vm的根数据对象添加属性！！！
+需求1：定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍。
+需求2：定义一个v-fbind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。
+自定义指令总结：
+一、定义语法：
+（1）.局部指令：
+    new Vue({
+      directives:{指令名：配置对象}
+    })
+    或
+    new Vue({
+      directives (){}
+    })
+（2）.全局指令：
+    Vue.directive(指令名，配置对象)或 Vue.directive(指令名，回调函数)
+二、配置对象中常用的3个回调：
+  (1).bind：指令与元素成功绑定时调用。
+  (2).inserted：指令所在元素被插入页面时调用。
+  (3).update：指令所在模板结构被重新解析时调用。
+备注：
+1.指令定义时不加v-，但使用时要加v-；
+2.指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名。
