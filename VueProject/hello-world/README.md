@@ -28,3 +28,15 @@
   若业务需求确实需要修改，那么请复制props的内容到data中一份，然后去修改data中的数据。
     打标识：<h1 ref="xxx"></h1>或<School ref=" xxx"></School>
     获取：this.$refs.xxx
+
+## mixin(混入)
+功能：可以把多个组件共用的配置提取成一个混入对象
+使用方式：
+  第一步定义混合，例如：
+  {
+    data(){...},
+    methods: {...}
+  }
+  第二步使用混入，例如：
+  (1).全局混入：Vue.mixin(xxx)
+  (2).局部混入：mixins:[xxx]
