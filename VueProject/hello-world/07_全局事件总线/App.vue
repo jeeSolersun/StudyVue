@@ -21,6 +21,7 @@ export default {
     School
   },
   mounted() {
+    // 全局事件总线独享绑定
     this.$bus.$on('sendDataToApp', (value) => {
       console.log("接收到来自Student组件的消息", value);
       this.msgFromStudent = value;
