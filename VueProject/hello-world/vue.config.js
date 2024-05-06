@@ -33,4 +33,5 @@ module.exports = {
       .set('@', path.join(__dirname, 'src'))
       .set('@assets', path.join(__dirname, 'src/assets'))
   },
+  // lintOnSave: 'default'
 }
