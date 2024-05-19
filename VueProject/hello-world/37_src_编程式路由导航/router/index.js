@@ -1,0 +1,57 @@
+import Vue from 'vue'
+import VueRouter from "vue-router";
+import Home from "../pages/Home.vue";
+import About from "../pages/About.vue"
+import News from '../pages/home/News.vue'
+import Message from '../pages/home/Message.vue'
+import MessageDetail from '../pages/home/MessageDetail.vue'
+
+// 使用路由插件
+Vue.use(VueRouter)
+const routes = [
+  {
+    path: '/home',
+    component: Home,
+    // 多级路由
+    children: [
+      {
+        path: 'news', // 前面不用加/
+        component: News
+      },
+      {
+        path: 'message',
+        component: Message,
+        children: [
+          {
+            name: 'detail',
+            path: 'detail/:id/:title', // 使用占位符声明接收params参数
+            component: MessageDetail,
+            // props写法--解耦$route和组件，具体参考：
+            // https://v3.router.vuejs.org/zh/guide/essentials/passing-props.html#%E5%B8%83%E5%B0%94%E6%A8%A1%E5%BC%8F
+            // 1、props的第1中写法-对象
+            // props: {lan: 'go'}
+            // 2、props的第2种写法-布尔值，为true时会将$route.params参数传递给组件的props属性
+            // props: true
+            // 2、 props的第3种写法-函数，更加灵活，将参数传递给组件的props属性
+            props: (route) => {
+              return {
+                query: route.query,
+                params: route.params
+              }
+            }
+          },
+        ]
+      }
+    ]
+  },
+  {
+    // 1、命名路由
+    name: 'about',
+    path: '/about',
+    component: About
+  },
+]
+// 定义路由
+export default new VueRouter({
+  routes
+})
