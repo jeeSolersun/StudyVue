@@ -1,41 +1,23 @@
 <template>
-  <div>
-    <h2>求和：{{ sum }}</h2>
-    <button @click="add">sum++</button>
-    <hr/>
-    <h2>人员信息:</h2>
-    <h2>{{ person.name }}</h2>
-    <h2>{{ person.gender }}</h2>
-    <h2>{{ person.age }}</h2>
-    <button @click="changeName">change name</button>
-    <button @click="changeGender">change gender</button>
-    <button @click="changeAge">change age</button>
+<div>
+  <h1>人员信息</h1>
+  <h2>姓名：{{ person.name }}</h2>
+  <h2>年龄：{{ person.age }}</h2>
 </div>
 </template>
 
 <script setup lang="ts" name="Person">
-import { reactive, ref } from 'vue';
-// ref定义基本类型和对象类型数据
-let sum = ref(0)
-function add() {
-  sum.value += 1
-}
-
-// reactive只能定义对象类型数据
-let person = reactive({
-  name: 'codeify',
-  gender: 'male',
-  age: 22
+import { ref,reactive} from 'vue'
+const person = ref({
+  name:'张三',
+  age:18
 })
-function changeName() {
-  person.name = '张三'
-}
-function changeGender() {
-  person.gender = 'xxx'
-}
-function changeAge() {
-  person.age += 1;
-}
+const person2 = reactive({
+  name:'李四',
+  age:20
+})
+console.log('@@', person, person2);
+
 </script>
 
 <style lang="scss" scoped>
